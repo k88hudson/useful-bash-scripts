@@ -1,0 +1,28 @@
+#!/bin/sh
+#usage: serv projectname -or
+
+#This is where your files will be copied and stuff
+APACHEDIR=~/Sites/github
+GITHUBDIR=~/github
+LOCALHOSTPATH="http://localhost/~katehudson/github"
+TIMESTAMP=$(date +%m%d%y%H%M%S)
+
+
+projectname=$1
+currentpath=$GITHUBDIR/$projectname
+echo $currentpath
+echo $projectname
+
+cd $APACHEDIR
+if [ -d $projectname ]; then
+	mv $projectname $projectname$TIMESTAMP
+fi
+
+mkdir $projectname
+cp -r $currentpath/* $projectname
+echo "Served on apache at: $LOCALHOSTPATH/$projectname"
+
+if [ $2 == '-or' ]; then
+	rm -rf $projectname$TIMESTAMP
+	echo "Removed old project."
+fi

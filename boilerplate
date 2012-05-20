@@ -1,0 +1,55 @@
+#!/bin/sh
+#This is a build script to create html5 projects quickly by @k88hudson.
+#Usage:
+#boilerplate myname -s 	 	Creates a normal project in the github folder called "myname"
+#boilerplate myname -pop 	Creates a popcorn project...
+
+#The directory that contains all your projects
+MAINDIR=~/github
+#The directory with the source materials
+SOURCEDIR=~/github/html5-stripped
+
+if [ $# == 2 ]; then
+	tryname=$1
+	choice=$2
+	if [ -d $tryname ]; then
+		echo "Sorry, that folder exists."
+		exit
+	else
+		name=$tryname
+	fi
+else
+	until [ $name ]
+	do
+		echo "Name the project (no spaces):"
+		read tryname
+		if [ -d $tryname ]; then
+			echo "Sorry, that folder exists."
+		else
+			name=$tryname
+		fi
+	done
+
+	echo "Choose a script: "
+	echo "------------------------------------"
+	echo "-s: 	Standard installation"
+	echo "-pop: 	Adds popcorn"
+	echo "------------------------------------"
+	read choice
+fi
+
+if [ $choice == "-s" ]; then
+	cd $MAINDIR
+	mkdir $name
+	cp -r $SOURCEDIR/* $name
+	echo "Created folder $name successfully."
+	open .
+	subl $name
+	exit
+elif [ $choice == "-pop" ]; then
+	echo "$choice is not set up yet, sorry!"
+	exit
+else
+	echo "Sorry, $choice isn't an option."
+	exit
+fi
