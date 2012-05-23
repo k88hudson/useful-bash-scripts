@@ -1,0 +1,19 @@
+#!/bin/sh
+#usage: gradient .2 444 -t
+#		-> a gradient with a base colour of #444 and a gradient overlay from 20% black to 0%, starting from the top.
+
+if [ $3 == '-t' ]; then
+	FROM=$1
+	TO=0
+else
+	FROM=0
+	TO=$1
+fi
+
+COLOUR="#$2"
+
+echo "background: -moz-linear-gradient(top, rgba(0,0,0,$FROM) 0%, rgba(0,0,0,$TO) 100%), $COLOUR;"
+echo "background: -webkit-linear-gradient(top, rgba(0,0,0,$FROM) 0%,rgba(0,0,0,$TO) 100%), $COLOUR;"
+echo "background: -o-linear-gradient(top, rgba(0,0,0,$FROM) 0%,rgba(0,0,0,$TO) 100%), $COLOUR;"
+echo "background: -ms-linear-gradient(top, rgba(0,0,0,$FROM) 0%,rgba(0,0,0,$TO) 100%), $COLOUR;"
+echo "background: linear-gradient(top, rgba(0,0,0,$FROM) 0%,rgba(0,0,0,$TO) 100%), $COLOUR;"
