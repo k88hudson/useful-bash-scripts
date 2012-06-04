@@ -1,0 +1,45 @@
+#!/bin/sh
+# @k88hudson
+# usage: 
+# 	lh t1335 		=> Opens ticket 1335
+#	lh -a			=> Shows all tickets for popcorn maker
+#	lh -n 			=> Opens a new ticket
+#	lh -m 			=> Opens all tickets tagged templates. Specific to my workflow.
+#	lh prep t1335	=> Preps a pull request and associated things for templates. Specific to my workflow.
+# Note: these are all relative to popcorn maker right now, but could be extended to work with whatever.
+# Also, there is an API that spits out json we could use if we really didn't even want to use the browser.
+
+POPCORNMAKERDIR="https://webmademovies.lighthouseapp.com/projects/65733-popcorn-maker/"
+input=$1
+input2=$2
+command=${input:0:1} 
+
+#all popcornmaker tickets
+if [ $input == "-a" ]; then
+	url=$POPCORNMAKERDIR"overview"
+	open $url
+#new ticket
+elif [ $input == "-n" ]; then
+	url=$POPCORNMAKERDIR"tickets/new"
+	open $url
+#all tickets tagged template
+elif [ $input == "-m" ]; then
+	url=$POPCORNMAKERDIR"tickets?q=tagged%3Atemplates"
+	open $url
+#prepare a pull request and diff for template stuff
+elif [ $input == "prep" ]; then
+	ticket=${input2:1:${#input2}}
+	ticketurl=$POPCORNMAKERDIR"tickets/"$ticket
+	pullurl="https://github.com/k88hudson/butter/pull/new/m-t"$ticket
+	diffurl="https://github.com/k88hudson/butter/compare/m...m-t"$ticket
+
+	open $ticketurl
+	open $diffurl
+	open $pullurl
+fi
+#t3123 opens ticket 3123
+elif [ $command == "t" ]; then
+	ticket=${input:1:${#input}}
+	url=$POPCORNMAKERDIR"tickets/"$ticket
+	open $url
+fi
